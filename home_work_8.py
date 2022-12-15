@@ -1,24 +1,24 @@
 from datetime import datetime, timedelta
-#тест от 04.12.22
+#тест от 15.12.22
 test_users = [
-    {"name": "Harry", "birthday": datetime(year=1990, month=12, day=1)},  #не выводит
-    {"name": "Oliver", "birthday": datetime(year=1990, month=12, day=2)},   #не выводит
-    {"name": "Jack", "birthday": datetime(year=1990, month=12, day=3)},   #Пн Jack Charlie Thomas
-    {"name": "Charlie", "birthday": datetime(year=1990, month=12, day=4)},   #Пн Jack Charlie Thomas
-    {"name": "Thomas", "birthday": datetime(year=1990, month=12, day=5)},    #Пн Jack Charlie Thomas
-    {"name": "Jacob", "birthday": datetime(year=1990, month=12, day=6)},     #Вт Jacob James
-    {"name": "Alfie", "birthday": datetime(year=1990, month=12, day=7)},     #Ср Alfie
-    {"name": "Riley", "birthday": datetime(year=1990, month=12, day=8)},     #Чт Riley
-    {"name": "William", "birthday": datetime(year=1990, month=12, day=9)},   #Пт William Isabella
-    {"name": "James", "birthday": datetime(year=1990, month=12, day=6)},   #Вт Jacob James
-    {"name": "Amelia", "birthday": datetime(year=1991, month=12, day=11)},  #не выводит
-    {"name": "Olivia", "birthday": datetime(year=1991, month=12, day=12)},  #не выводит
-    {"name": "Jessica", "birthday": datetime(year=1991, month=12, day=13)}, #не выводит
-    {"name": "Emily", "birthday": datetime(year=1991, month=12, day=14)},   #не выводит
-    {"name": "Lily", "birthday": datetime(year=1991, month=12, day=15)},    #не выводит
-    {"name": "Ava", "birthday": datetime(year=1991, month=12, day=16)},    #не выводит
-    {"name": "Isabella", "birthday": datetime(year=1991, month=12, day=9)},#Пт William Isabella
-    {"name": "Sophie", "birthday": datetime(year=1991, month=12, day=18)},  #не выводит
+    {"name": "Harry", "birthday": datetime(year=1990, month=12, day=10)},  #не выводит
+    {"name": "Oliver", "birthday": datetime(year=1990, month=12, day=11)},   #не выводит
+    {"name": "Jack", "birthday": datetime(year=1990, month=12, day=12)},   #не выводит
+    {"name": "Charlie", "birthday": datetime(year=1990, month=12, day=13)},   #не выводит
+    {"name": "Thomas", "birthday": datetime(year=1990, month=12, day=14)},    #не выводит
+    {"name": "Jacob", "birthday": datetime(year=1990, month=12, day=15)},     #не выводит
+    {"name": "Alfie", "birthday": datetime(year=1990, month=12, day=16)},     #не выводит
+    {"name": "Riley", "birthday": datetime(year=1990, month=12, day=17)},     # Riley, William, James
+    {"name": "William", "birthday": datetime(year=1990, month=12, day=18)},   # Riley, William, James
+    {"name": "James", "birthday": datetime(year=1990, month=12, day=19)},     # Riley, William, James
+    {"name": "Amelia", "birthday": datetime(year=1991, month=12, day=20)},  # Amelia
+    {"name": "Olivia", "birthday": datetime(year=1991, month=12, day=21)},  # Olivia
+    {"name": "Jessica", "birthday": datetime(year=1991, month=12, day=22)}, # Jessica
+    {"name": "Emily", "birthday": datetime(year=1991, month=12, day=23)},   # Emily
+    {"name": "Lily", "birthday": datetime(year=1991, month=12, day=26)},    #не выводит
+    {"name": "Ava", "birthday": datetime(year=1991, month=12, day=27)},    #не выводит
+    {"name": "Isabella", "birthday": datetime(year=1991, month=12, day=28)},#не выводит
+    {"name": "Sophie", "birthday": datetime(year=1991, month=12, day=29)},  #не выводит
 ]
 week_bday = {
     "Monday": [],
@@ -34,32 +34,26 @@ def week_control(bday, current_datetime):
     diff_next_week = (bday - next_week_Sat).days
     if 0 <= diff_next_week <= 2:
         return("Monday")
-    elif diff_next_week == 3:
-        return("Tuesday")
-    elif diff_next_week == 4:
-        return("Wednesday")
-    elif diff_next_week == 5:
-        return("Thursday")
-    elif diff_next_week == 6:
-        return("Friday")
+    elif 3 <= diff_next_week <= 6:
+        return(bday.strftime('%A'))
     else:
         return("No result")
 
-def user_list(week_bday):
+def print_user_list(week_bday):
     for key, value in week_bday.items():
         if value:
             print(f"{key}: {', '.join(value)}")
 
-def get_day_birthdays(users: list):
-    current_datetime = datetime.now()
+def get_birthdays_per_week(users: list):
+    current_datetime = datetime.now() #datetime(year=2022, month=11, day=22)
     for name in users:
-        b_day = name["birthday"]
-        b_day_this_year = datetime(year=current_datetime.year, month=b_day.month, day=b_day.day)
-        day_happy = week_control(b_day_this_year, current_datetime)
-        if day_happy == "No result":
+        bday = name["birthday"]
+        bday_this_year = datetime(year=current_datetime.year, month=bday.month, day=bday.day)
+        day_bday = week_control(bday_this_year, current_datetime)
+        if day_bday == "No result":
             continue
-        (week_bday[day_happy]).append(name["name"])
-    user_list(week_bday)
+        (week_bday[day_bday]).append(name["name"])
+    print_user_list(week_bday)
 
 if __name__ == "__main__":
-    get_day_birthdays(test_users)
+    get_birthdays_per_week(test_users)
