@@ -21,13 +21,6 @@ class Name(Field):
 
 
 class Phone(Field):
-    def __init__(self, value):
-        self.value = value
-
-    @property
-    def value(self):
-        return self._value
-
     @Field.value.setter
     def value(self, new_value):
         if new_value is not None and len(new_value) == 10:
@@ -38,13 +31,6 @@ class Phone(Field):
 
 
 class Birthday(Field):
-    def __init__(self, value):
-        self.value = value
-
-    @property
-    def value(self):
-        return self._value
-
     @Field.value.setter
     def value(self, new_value):
         if new_value is not None:
